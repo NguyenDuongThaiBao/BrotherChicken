@@ -32,7 +32,7 @@ public class MenuItemController {
                 int proId = rs.getInt("pro_id");
                 String proName = rs.getString("pro_name");
                 String proType = rs.getString("pro_type");
-                int proPrice = rs.getInt("pro_price");
+                double proPrice = rs.getDouble("pro_price");
                 String proImage = rs.getString("pro_image");
                 int proStock = rs.getInt("pro_stock");
                 boolean proStatus = rs.getBoolean("pro_status");
@@ -70,7 +70,7 @@ public class MenuItemController {
         int currentId = Integer.parseInt(model.getValueAt(i, 0).toString());
         if (currentId == item.getId()) {
             int quantity = Integer.parseInt(model.getValueAt(i, 3).toString()) + 1;
-            int subtotal = quantity * item.getPrice();
+            double subtotal = quantity * item.getPrice();
             model.setValueAt(quantity, i, 3);   // update quantity
             model.setValueAt(subtotal, i, 5);   // update subtotal
             found = true;
@@ -80,7 +80,7 @@ public class MenuItemController {
 
     // ➕ If not found, add as a new row
     if (!found) {
-        int subtotal = item.getPrice();
+        double subtotal = item.getPrice();
         model.addRow(new Object[]{
             item.getId(),      // ID
             item.getName(),    // NAME
@@ -132,10 +132,10 @@ public class MenuItemController {
     }
 
     // 💰 Calculate total price
-    public int calculateTotal(DefaultTableModel model) {
-        int total = 0;
+    public double calculateTotal(DefaultTableModel model) {
+        double total = 0;
         for (int i = 0; i < model.getRowCount(); i++) {
-            total += Integer.parseInt(model.getValueAt(i, 5).toString());
+            total += Double.parseDouble(model.getValueAt(i, 5).toString());
         }
         return total;
     }
@@ -145,10 +145,10 @@ public class MenuItemController {
     JLabel totalLabel = view.getTotalLabel();
 
     DefaultTableModel model = (DefaultTableModel) table.getModel();
-    int total = 0;
+    double total = 0;
 
     for (int i = 0; i < model.getRowCount(); i++) {
-        total += Integer.parseInt(model.getValueAt(i, 5).toString()); // column 5 = subtotal
+        total += Double.parseDouble(model.getValueAt(i, 5).toString()); // column 5 = subtotal
     }
 
     totalLabel.setText("Total: " + total);
